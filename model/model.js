@@ -31,7 +31,7 @@ Schema.methods.createtoken = async function () {
   try {
     const token = await jwt.sign(
       { _id: this._id },
-      "qwtqeueiwuebcsbnhjgdhgueeoquiruoiejskabmad "
+     process.env.AUTH_TOKEN
     );
     this.tokens = this.tokens.concat({ token });
     await this.save();

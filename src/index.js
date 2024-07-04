@@ -59,8 +59,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "rahul.kumar.eee21@gmail.com",
-    pass: "eubtschmmhifnihn",
+    user: process.env.APP_EMAIL,
+    pass: process.env.APP_PASS,
   },
 });
 
@@ -175,8 +175,25 @@ app.post("/uploading", upload.single("fname"), (req, res) => {
     }
   });
 
-  fs.rmSync(path.join(__dirname, "../uploads"), { recursive: true });
+  // fs.rmSync(path.join(__dirname, "../uploads"), { recursive: true });
+  // fs.rm(path.join(__dirname, "../uploads"), { recursive: true }, (err) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log("uploads directory removed");
+  //   }
+  // })
+  const directory = path.join(__dirname , "../uploads");
 
+fs.readdir(directory, (err, files) => {
+  if (err) throw err;
+
+  for (const file of files) {
+    fs.unlink(path.join(directory , file), err => {
+      if (err) throw err;
+    });
+  }
+});
   res.render("sent");
 });
 
@@ -198,7 +215,7 @@ app.post("/otp", async (req, res) => {
   );
 
   const mailoptions = {
-    from: "rahul.kumar.eee21@gmail.com",
+    from: process.env.APP_MAIL,
     to: req.body.email,
     subject: "Reset password",
     text: otpp,
@@ -246,6 +263,7 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
-app.listen(8000, () => {
+const port=8000;
+app.listen(port, () => {
   console.log("conneted");
 });

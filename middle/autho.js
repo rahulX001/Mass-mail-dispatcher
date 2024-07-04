@@ -10,7 +10,7 @@ const autho = async function (req, res, next) {
     if (token != undefined) {
       const verify = jwt.verify(
         token,
-        "qwtqeueiwuebcsbnhjgdhgueeoquiruoiejskabmad "
+        process.env.AUTH_TOKEN
       );
       const user = await Collection.findOne({ id: verify._id });
       req.user = user;
