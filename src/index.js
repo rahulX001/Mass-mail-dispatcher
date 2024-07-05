@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "hbs");
 const viewsPa = path.join(__dirname, "../views");
 app.set("views", viewsPa);
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.static("images"));
 const path1 = './uploads';
