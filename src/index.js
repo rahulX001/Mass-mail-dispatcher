@@ -24,13 +24,23 @@ app.set("view engine", "hbs");
 const viewsPa = path.join(__dirname, "../views");
 app.set("views", viewsPa);
 
-app.use(express.static("images"));
 
-if (fs.statSync("./uploads").isDirectory()) {
-  console.log("already exist");
-} else {
-  fs.mkdirSync("uploads");
+app.use(express.static("images"));
+const path1 = './uploads';
+// Check if the directory exists
+if (!fs.existsSync(path1)) {
+  // Create the directory
+  fs.mkdirSync(path1, { recursive: true });
 }
+
+// Your existing code
+const stats = fs.statSync(path1);
+
+// if (fs.statSync("./uploads").isDirectory()) {
+//   console.log("already exist");
+// } else {
+//   fs.mkdirSync("uploads");
+// }
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
